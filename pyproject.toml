@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "worldview-platform"
 version = "0.1.0"
-description = "World view platform and Python SDK for explicit externalized AI world models"
+description = "Internal framework/SDK for governed world models and world views in business AI systems"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [

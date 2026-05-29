@@ -1,48 +1,58 @@
 # world-model
 
-Production-minded Python proof-of-concept for an explicit **world view platform** and **framework SDK** for business AI workflows.
+Production-minded internal Python framework/SDK for building business AI systems around explicit **world models** and governed **world views**.
 
-## What this repository provides
+## Why this framework exists
 
-- A **WorldViewSDK** for creating and evolving explicit world state.
-- A **FastAPI platform service** exposing world-view commands and queries.
-- SQLite-backed persistence for entities, relations, evidence, and event history.
-- Invariant enforcement for ontology, transitions, and evidence requirements.
+Some business AI workflows require durable structure, not stateless prompt inference. This framework provides a small but serious engineering kernel for:
 
-## World view definition
+- explicit ontology and identity over time
+- state transitions and causal event history
+- evidence traceability for claims
+- invariant enforcement and violation recording
+- evaluation runs and explicit run comparability decisions
+- worldview policy as a typed, operational artifact
 
-A **world view** is the system's coherent interpretation of reality, defined by:
+## World model vs world view
 
-- ontology
-- state
-- causal assumptions
-- evidence rules
-- invariants
+- **World model**: structured, versioned, evidence-linked representation of domain reality (entities, relations, identity rules, state, transitions, invariants, evaluation history).
+- **World view**: interpretive and normative policy layer (trust hierarchy, ambiguity policy, comparability policy, accountability mapping, escalation policy).
 
-In ASM/ADM terms:
+## ASM / ADM framing
 
-- **ASM** specifies this semantic structure.
-- **ADM** ensures it is instantiated, enforced, and revised in runtime operation.
+- **ASM** (`worldspec`): semantic and normative specification.
+- **ADM** (`worldruntime`): operational realization, enforcement, persistence, and auditable updates.
+
+## Package layout
+
+- `src/worldspec`: ontology, identity rules, state/transition rules, evidence policy, invariants, worldview profile
+- `src/worldruntime`: persistence models, command runtime, event log, invariant enforcement, run records
+- `src/worldeval`: evaluation and comparability services
+- `src/worldsdk`: developer-facing SDK + optional FastAPI API
+- `examples/document_extraction`: coherent example app
 
 ## Quick start
 
 ```bash
-cd /tmp/workspace/UL-AIL/world-model
+cd world-model
 python -m pip install -e .[dev]
 pytest -q
-python scripts/run_demo.py
-uvicorn worldview.api:create_app --factory --reload
+python examples/document_extraction/run_example.py
+uvicorn worldsdk.api:create_app --factory --reload
 ```
 
-## Core API endpoints
+## What first version provides
 
-- `POST /entities` — create versioned entity state with stable identity
-- `POST /relations` — create typed relations under ontology constraints
-- `POST /evidence` — register traceable source evidence
-- `POST /transitions` — apply ASM-constrained state transitions
-- `POST /claims` — create claims with mandatory evidence linkage
-- `GET /world-view/{stable_id}` — retrieve current state + evidence + causal log
+- durable SQLite-backed runtime
+- explicit identity and transition enforcement
+- evidence attachment and evidence-required claims
+- invariant checks for required evidence classes
+- persisted evaluation runs
+- explicit comparability decisions across runs
 
-## Notes
+## Out of scope
 
-This POC intentionally stays small in scope while keeping explicit semantics and enforcement suitable as a seed for a larger internal framework.
+- distributed runtime and multi-service orchestration
+- generic agent framework abstractions
+- broad plugin ecosystems
+- heavy UI
