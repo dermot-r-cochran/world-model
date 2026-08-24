@@ -31,18 +31,16 @@ failure a research project. The three-tier layout keeps the first question —
 
 ## Known gaps (candidates for next)
 
-- **No CI.** This is the largest gap by far: the suite only runs when someone
-  types `pytest`. The sibling `swarm` repo's workflow (pytest on a version
-  matrix, `fail-fast: false`, later a coverage ratchet) is the pattern to
-  copy; the suite is fast and its dependencies are pip-installable, so the
-  workflow is small.
+- ~~No CI~~ — **closed 2026-08-24**: `.github/workflows/ci.yml` runs the
+  suite on Python 3.12/3.13 with a coverage ratchet at the measured 86%
+  baseline, on every PR and push to `main`.
 - **Seven tests is thin for a FastAPI + SQLModel service.** The API surface
   (routing, validation errors, persistence round-trips via `httpx`, which is
   already in the dev extra) has no direct coverage yet; the invariant and
   policy layers are the right ones to deepen first, since they are the
   product.
-- Coverage is not measured; once CI exists, a `--cov-fail-under` ratchet at
-  the measured baseline keeps it from silently falling.
+- ~~Coverage is not measured~~ — the CI ratchet above holds it at ≥86%;
+  raise the number in the same change that adds the tests that earn it.
 - No lint configuration; `ruff` with the repo's conventions would be a
   one-file addition, added green (fix findings in the same change that adds
   the job).
