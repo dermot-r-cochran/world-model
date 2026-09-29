@@ -45,3 +45,31 @@ Related: evidence is required, not decorative — claims can be evidence-require
 ## Testing
 
 `TestingStrategy.md` is the authority on mechanics and gaps. The layout **is** the strategy — tiers are organised by what they protect, not by module: `tests/unit/` (one governance rule in isolation), `tests/integration/` (the document-extraction flow composing), `tests/regression/` (pinned incidents — **a bug fix lands with its regression test in that directory, in the same change**).
+
+## Related repositories
+
+The map of Dermot's public repositories and what crosses between them is
+`RELATED-REPOSITORIES.md` in `dermot-r-cochran/star-rangers`; this section
+names only this repository's own neighbours (added 2026-09-29 at his
+direction). Nothing below shares code or data with this repository; what is
+shared is stated exactly.
+
+- **`dermot-r-cochran/careful-memory`** is the account's long-term memory
+  system for agents, which is exactly what ADR-001 says this repository is
+  not: retrieval tells you what was said, this is governed state with causal
+  history. The two draw one boundary from opposite sides and share nothing
+  else.
+- **`dermot-r-cochran/swarm`** (EPISTEME) keeps evidence-linked, revisable
+  beliefs as the primitive; this repository keeps evidence-linked claims
+  inside a typed world model. Neighbouring ideas, independent code.
+- **Siblings by convention:** `careful-memory`, `world-model`, `foundation-model`,
+  `shadow-architect`, `visual-llm`, `swarm`, `Voting` and
+  `architecture-definition-model` all carry a `TestingStrategy.md` that keeps
+  testing mechanics apart from the repository's rules; six run CI coverage as a
+  ratchet at the measured baseline (`swarm`, `careful-memory`, `world-model`,
+  `foundation-model`, `shadow-architect`, `visual-llm`); five keep
+  architecture decision records with a guard test each (`swarm`,
+  `careful-memory`, `world-model`, `shadow-architect`, the ADM). When a
+  convention here needs changing, those are the reference for how it is done
+  in the account, and a change to the convention itself is worth landing in
+  all of them or in none.
