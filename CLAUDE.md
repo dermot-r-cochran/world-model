@@ -62,6 +62,11 @@ shared is stated exactly.
 - **`dermot-r-cochran/swarm`** (EPISTEME) keeps evidence-linked, revisable
   beliefs as the primitive; this repository keeps evidence-linked claims
   inside a typed world model. Neighbouring ideas, independent code.
+- **`dermot-r-cochran/virtual-anthropology`** (The Archipelago) keeps the
+  same discipline for a simulated civilisation: canonical state changed only
+  by recorded, hash-chained events, replayed and invariant-checked after
+  every command, with a research layer that publishes only what traces to
+  the log. Independent code; neither imports the other (added 2026-10-01).
 - **Siblings by convention:** `careful-memory`, `world-model`, `foundation-model`,
   `shadow-architect`, `visual-llm`, `swarm`, `Voting` and
   `architecture-definition-model` all carry a `TestingStrategy.md` that keeps
