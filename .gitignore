@@ -216,3 +216,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# The worked example (examples/document_extraction) writes its database here
+document_example.db

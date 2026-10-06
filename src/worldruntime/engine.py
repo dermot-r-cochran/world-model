@@ -51,6 +51,11 @@ class WorldRuntime:
             raise TransitionError(f"Invalid state {final_state!r} for {entity_type}")
 
         with Session(self.engine) as session:
+            # An existing identity changes only through transition_entity, so
+            # re-creating it cannot write a state the transition rules refuse.
+            if latest_entity(session, stable_id) is not None:
+                raise IdentityError(f"stable_id {stable_id!r} already exists")
+
             version = next_entity_version(session, stable_id)
             entity = EntityVersion(
                 stable_id=stable_id,
