@@ -19,7 +19,7 @@ of confidence each one produces, and the directory layout is the strategy:
   this directory, in the same change.**
 
 Run: `pytest` (config in `pyproject.toml`: `pythonpath = ["src"]`,
-`testpaths = ["tests"]`). All 7 tests verified passing locally on 2026-08-24
+`testpaths = ["tests"]`). All 8 tests verified passing locally on 2026-10-06
 with the `dev` extra installed (`pip install -e ".[dev]"`).
 
 ## What the tiers deliberately separate
