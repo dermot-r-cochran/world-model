@@ -34,7 +34,7 @@ failure a research project. The three-tier layout keeps the first question —
 - ~~No CI~~ — **closed 2026-08-24**: `.github/workflows/ci.yml` runs the
   suite on Python 3.12/3.13 with a coverage ratchet at the measured 86%
   baseline, on every PR and push to `main`.
-- **Seven tests is thin for a FastAPI + SQLModel service.** The API surface
+- **Eight tests is thin for a FastAPI + SQLModel service.** The API surface
   (routing, validation errors, persistence round-trips via `httpx`, which is
   already in the dev extra) has no direct coverage yet; the invariant and
   policy layers are the right ones to deepen first, since they are the

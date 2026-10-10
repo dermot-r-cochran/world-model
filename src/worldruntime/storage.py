@@ -74,7 +74,7 @@ class EvaluationRunRecord(SQLModel, table=True):
     run_id: str = Field(unique=True, index=True)
     test_set_version: str = Field(index=True)
     worldview_profile: str = Field(index=True)
-    alignment_strategy: str
+    alignment_strategy: str  # a comparability label only; see worldeval.models.EvaluationResult
     metrics: dict[str, Any] = Field(default_factory=dict, sa_column=Column(JSON))
     mismatches: list[dict[str, Any]] = Field(default_factory=list, sa_column=Column(JSON))
     created_at: datetime = Field(default_factory=lambda: datetime.now(UTC))

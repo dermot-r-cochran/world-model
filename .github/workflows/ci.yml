@@ -46,3 +46,23 @@ jobs:
         # --cov-fail-under is a ratchet at the measured baseline (86% on
         # 2026-08-24): raise it with the tests that earn it, never lower it.
         run: pytest --cov=src --cov-fail-under=86
+
+  docs:
+    # Stdlib-only source check over the Markdown (.github/scripts/check_docs.py):
+    # every relative link resolves, no file has two front-matter blocks, any
+    # "N tests" in README.md or TestingStrategy.md matches tests/, and the ADR
+    # range in CLAUDE.md matches docs/decisions/. Added 2026-10-10. It does not
+    # yet check that a test the README cites by name still exists.
+    name: docs check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Check docs
+        run: python .github/scripts/check_docs.py
