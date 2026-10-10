@@ -22,6 +22,10 @@ class EvaluationResult(BaseModel):
     run_id: str
     test_set_version: str
     worldview_profile: str
+    # A comparability label, recorded so compare_runs can refuse to compare runs
+    # made under different strategies (ALIGNMENT_STRATEGY_MISMATCH). Nothing acts
+    # on it: evaluate_rows always aligns rows by row_id, whatever the label says.
+    # Kept that way on purpose while the project is a prototype (2026-10-10).
     alignment_strategy: str
     metrics: dict[str, float] = Field(default_factory=dict)
     mismatches: list[Mismatch] = Field(default_factory=list)

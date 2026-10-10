@@ -54,18 +54,33 @@ Full set in [`docs/decisions/`](docs/decisions/).
 explicit identity rules and stable IDs, and the runtime enforces identity
 prefixes and versioned state per ID. Comparability, lineage and accountability
 all collapse without stable identity over time — so it is not left to
-convention.
+convention. Proved by
+`tests/unit/test_spec_runtime_rules.py::test_identity_rules_enforced_by_prefix`
+and
+`tests/regression/test_recreate_cannot_bypass_transitions.py::test_regression_recreating_an_entity_cannot_perform_a_refused_transition`.
 
 **Comparability is explicit** (ADR-004). Comparing two evaluation runs *always*
 produces a persisted comparability decision carrying a reason code, checked
 against worldview profile, test-set version and alignment strategy. Silent
 comparison across incompatible runs is the failure mode this exists to prevent:
 it does not error, it just quietly produces a misleading governance outcome.
+Proved by
+`tests/unit/test_worldview_comparability_policy.py::test_comparability_decision_rejects_alignment_mismatch`
+and
+`tests/regression/test_comparability_edge_case.py::test_regression_runs_with_different_test_set_versions_not_comparable`;
+that the decision is persisted has no test yet.
+
+The alignment strategy is a comparability label, recorded for comparing runs
+and not acted on: evaluation always aligns rows by `row_id`, whatever the label
+says. That is deliberate while the project is a prototype (decided
+2026-10-10).
 
 **Evidence is required, not decorative** (see
 [`docs/concepts/invariants-evidence.md`](docs/concepts/invariants-evidence.md)).
 Claims can be marked evidence-required, and invariants check for required
-evidence classes rather than trusting that someone attached something.
+evidence classes rather than trusting that someone attached something. Proved
+by `tests/unit/test_spec_runtime_rules.py::test_claim_requires_evidence` and
+`tests/unit/test_invariant_enforcement.py::test_invariant_requires_evidence_for_extracted_row`.
 
 ---
 
@@ -76,7 +91,7 @@ evidence classes rather than trusting that someone attached something.
 | `src/worldspec` | ontology, identity rules, state/transition rules, evidence policy, invariants, worldview profile |
 | `src/worldruntime` | persistence models, command runtime, event log, invariant enforcement, run records |
 | `src/worldeval` | evaluation and comparability services |
-| `src/worldsdk` | developer-facing SDK, plus an optional FastAPI app |
+| `src/worldsdk` | developer-facing SDK, plus an optional FastAPI app (the app has no test yet) |
 | `examples/document_extraction` | a coherent worked example, end to end |
 
 ## Quick start
@@ -93,7 +108,7 @@ and a comparability decision in one flow.
 
 ## Tests
 
-Structured by what they protect, not by module:
+Eight tests, structured by what they protect, not by module:
 
 - `tests/unit` — invariant enforcement, spec/runtime rules, worldview comparability policy
 - `tests/integration` — the document-extraction flow end to end
@@ -103,12 +118,23 @@ Structured by what they protect, not by module:
 
 ## What the first version provides
 
-- durable SQLite-backed runtime
-- explicit identity and transition enforcement
-- evidence attachment and evidence-required claims
-- invariant checks for required evidence classes
-- persisted evaluation runs
-- explicit comparability decisions across runs
+Each line names the test that proves it, or says there is none yet.
+
+- durable SQLite-backed runtime — every test runs on it (in memory);
+  persistence across a restart has no test yet
+- explicit identity and transition enforcement —
+  `tests/unit/test_spec_runtime_rules.py::test_identity_rules_enforced_by_prefix`,
+  `tests/unit/test_spec_runtime_rules.py::test_valid_and_invalid_transitions`
+- evidence attachment and evidence-required claims —
+  `tests/integration/test_document_extraction_flow.py::test_end_to_end_document_extraction_flow`,
+  `tests/unit/test_spec_runtime_rules.py::test_claim_requires_evidence`
+- invariant checks for required evidence classes —
+  `tests/unit/test_invariant_enforcement.py::test_invariant_requires_evidence_for_extracted_row`
+- persisted evaluation runs — read back by `compare_runs` in
+  `tests/unit/test_worldview_comparability_policy.py::test_comparability_decision_rejects_alignment_mismatch`
+- explicit comparability decisions across runs —
+  `tests/unit/test_worldview_comparability_policy.py::test_comparability_decision_rejects_alignment_mismatch`,
+  `tests/regression/test_comparability_edge_case.py::test_regression_runs_with_different_test_set_versions_not_comparable`
 
 ## Out of scope
 
