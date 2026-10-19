@@ -44,8 +44,9 @@ jobs:
 
       - name: Run tests
         # --cov-fail-under is a ratchet at the measured baseline (86% on
-        # 2026-08-24): raise it with the tests that earn it, never lower it.
-        run: pytest --cov=src --cov-fail-under=86
+        # 2026-08-24; 87 on 2026-10-19, measured 87.73%): raise it with the
+        # tests that earn it, never lower it.
+        run: pytest --cov=src --cov-fail-under=87
 
   docs:
     # Stdlib-only source check over the Markdown (.github/scripts/check_docs.py):

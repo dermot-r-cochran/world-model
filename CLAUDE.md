@@ -9,7 +9,7 @@ pip install -e ".[dev]"        # install (Python >= 3.12; dev extra adds pytest,
 pytest                          # run the whole suite (config in pyproject.toml: pythonpath=["src"], testpaths=["tests"])
 pytest tests/unit/test_invariant_enforcement.py            # one file
 pytest tests/unit/test_invariant_enforcement.py::test_name # one test
-pytest --cov=src --cov-fail-under=86                       # what CI runs (Python 3.12 and 3.13)
+pytest --cov=src --cov-fail-under=87                       # what CI runs (Python 3.12 and 3.13)
 python examples/document_extraction/run_example.py         # the end-to-end worked example
 uvicorn worldsdk.api:create_app --factory --reload         # optional FastAPI app
 ```
