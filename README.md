@@ -68,7 +68,8 @@ Proved by
 `tests/unit/test_worldview_comparability_policy.py::test_comparability_decision_rejects_alignment_mismatch`
 and
 `tests/regression/test_comparability_edge_case.py::test_regression_runs_with_different_test_set_versions_not_comparable`;
-that the decision is persisted has no test yet.
+that every decision is persisted, with its reason code and as an event, by
+`tests/unit/test_comparability_decision_persisted.py::test_every_comparability_decision_is_persisted_with_its_reason_code`.
 
 The alignment strategy is a comparability label, recorded for comparing runs
 and not acted on: evaluation always aligns rows by `row_id`, whatever the label
@@ -108,10 +109,10 @@ and a comparability decision in one flow.
 
 ## Tests
 
-Eight tests, structured by what they protect, not by module:
+Ten tests, structured by what they protect, not by module:
 
-- `tests/unit` — invariant enforcement, spec/runtime rules, worldview comparability policy
-- `tests/integration` — the document-extraction flow end to end
+- `tests/unit` — invariant enforcement, spec/runtime rules, worldview comparability policy, persisted comparability decisions
+- `tests/integration` — the document-extraction flow end to end; state surviving a restart
 - `tests/regression` — a comparability edge case worth never regressing
 
 ---
@@ -120,8 +121,9 @@ Eight tests, structured by what they protect, not by module:
 
 Each line names the test that proves it, or says there is none yet.
 
-- durable SQLite-backed runtime — every test runs on it (in memory);
-  persistence across a restart has no test yet
+- durable SQLite-backed runtime — every test runs on it (in memory); that
+  state, evidence, events, runs and decisions survive a restart on a file is
+  `tests/integration/test_persistence_across_restart.py::test_state_evidence_events_and_runs_survive_a_restart`
 - explicit identity and transition enforcement —
   `tests/unit/test_spec_runtime_rules.py::test_identity_rules_enforced_by_prefix`,
   `tests/unit/test_spec_runtime_rules.py::test_valid_and_invalid_transitions`
@@ -134,7 +136,9 @@ Each line names the test that proves it, or says there is none yet.
   `tests/unit/test_worldview_comparability_policy.py::test_comparability_decision_rejects_alignment_mismatch`
 - explicit comparability decisions across runs —
   `tests/unit/test_worldview_comparability_policy.py::test_comparability_decision_rejects_alignment_mismatch`,
-  `tests/regression/test_comparability_edge_case.py::test_regression_runs_with_different_test_set_versions_not_comparable`
+  `tests/regression/test_comparability_edge_case.py::test_regression_runs_with_different_test_set_versions_not_comparable`,
+  and persisted whatever the outcome by
+  `tests/unit/test_comparability_decision_persisted.py::test_every_comparability_decision_is_persisted_with_its_reason_code`
 
 ## Out of scope
 
