@@ -13,16 +13,17 @@ of confidence each one produces, and the directory layout is the strategy:
   comparability decision is persisted (ADR-004). When one of these fails, a
   governance rule changed meaning.
 - **`tests/integration/`** — a flow across components: document extraction
-  end to end, and state written by one `WorldSDK` read back by a fresh one on
-  the same file (the "durable" in the README). When this fails, the pieces
-  stopped composing.
+  end to end, state written by one `WorldSDK` read back by a fresh one on
+  the same file (the "durable" in the README), and the FastAPI app driven
+  through `httpx` over a file (the quick start's last line). When this
+  fails, the pieces stopped composing.
 - **`tests/regression/`** — pinned incidents: the comparability edge case
   lives here because it once behaved wrongly, and the tier exists so a fixed
   bug cannot return unnoticed. **A bug fix lands with its regression test in
   this directory, in the same change.**
 
 Run: `pytest` (config in `pyproject.toml`: `pythonpath = ["src"]`,
-`testpaths = ["tests"]`). All 10 tests verified passing locally on 2026-10-19
+`testpaths = ["tests"]`). All 12 tests verified passing locally on 2026-10-30
 with the `dev` extra installed (`pip install -e ".[dev]"`).
 
 ## What the tiers deliberately separate
@@ -37,13 +38,15 @@ failure a research project. The three-tier layout keeps the first question —
 - ~~No CI~~ — **closed 2026-08-24**: `.github/workflows/ci.yml` runs the
   suite on Python 3.12/3.13 with a coverage ratchet at the measured 86%
   baseline, on every PR and push to `main`.
-- **Ten tests is thin for a FastAPI + SQLModel service.** The API surface
-  (routing, validation errors, persistence round-trips via `httpx`, which is
-  already in the dev extra) has no direct coverage yet; the invariant and
-  policy layers are the right ones to deepen first, since they are the
-  product.
-- ~~Coverage is not measured~~ — the CI ratchet above holds it at ≥87%
-  (raised from 86 on 2026-10-19 with the persistence tests, measured 87.73%);
+- ~~The API surface has no direct coverage~~ — **closed 2026-10-30**:
+  `tests/integration/test_api_smoke.py` drives every route through `httpx`'s
+  `TestClient` on a file, including validation errors, the runtime's refusals
+  as 400s and a persistence round-trip to a second app. Twelve tests is still
+  thin for a FastAPI + SQLModel service; the invariant and policy layers are
+  the right ones to deepen next, since they are the product.
+- ~~Coverage is not measured~~ — the CI ratchet above holds it at ≥95%
+  (raised from 86 on 2026-10-19 with the persistence tests, measured 87.73%,
+  and from 87 on 2026-10-30 with the API tests, measured 95.63%);
   raise the number in the same change that adds the tests that earn it. Note
   that pytest-cov compares the rounded figure, so a ratchet of N passes from
   N-0.5%: set it at or below the measured whole number, never the rounded one.
