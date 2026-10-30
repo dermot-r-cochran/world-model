@@ -160,6 +160,12 @@ Named deliberately, so the boundary is visible:
 Research prototype. The concepts and decisions are settled and documented in
 [`docs/`](docs/); interfaces may still change.
 
+## Related
+
+- [careful-memory](https://github.com/dermot-r-cochran/careful-memory) is the account's long-term memory for agents, which ADR-001 says this is not: the two draw one boundary from opposite sides. [swarm](https://github.com/dermot-r-cochran/swarm) (EPISTEME) keeps evidence-linked, revisable beliefs as the primitive.
+- [virtual-anthropology](https://github.com/dermot-r-cochran/virtual-anthropology) (The Archipelago) keeps the same discipline for a simulated civilisation: state changed only by recorded events, replayed and invariant-checked. Independent code throughout.
+- How these and the author's other public repositories relate is kept in one map: [RELATED-REPOSITORIES.md](https://github.com/dermot-r-cochran/star-rangers/blob/main/RELATED-REPOSITORIES.md).
+
 ## Licence
 
 MIT — see [LICENSE](LICENSE).
