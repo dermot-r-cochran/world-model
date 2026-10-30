@@ -92,7 +92,7 @@ by `tests/unit/test_spec_runtime_rules.py::test_claim_requires_evidence` and
 | `src/worldspec` | ontology, identity rules, state/transition rules, evidence policy, invariants, worldview profile |
 | `src/worldruntime` | persistence models, command runtime, event log, invariant enforcement, run records |
 | `src/worldeval` | evaluation and comparability services |
-| `src/worldsdk` | developer-facing SDK, plus an optional FastAPI app (the app has no test yet) |
+| `src/worldsdk` | developer-facing SDK, plus an optional FastAPI app (`tests/integration/test_api_smoke.py` drives every route) |
 | `examples/document_extraction` | a coherent worked example, end to end |
 
 ## Quick start
@@ -109,10 +109,10 @@ and a comparability decision in one flow.
 
 ## Tests
 
-Ten tests, structured by what they protect, not by module:
+Twelve tests, structured by what they protect, not by module:
 
 - `tests/unit` — invariant enforcement, spec/runtime rules, worldview comparability policy, persisted comparability decisions
-- `tests/integration` — the document-extraction flow end to end; state surviving a restart
+- `tests/integration` — the document-extraction flow end to end; state surviving a restart; the FastAPI app over the SDK, every route through `httpx`
 - `tests/regression` — a comparability edge case worth never regressing
 
 ---
@@ -139,6 +139,12 @@ Each line names the test that proves it, or says there is none yet.
   `tests/regression/test_comparability_edge_case.py::test_regression_runs_with_different_test_set_versions_not_comparable`,
   and persisted whatever the outcome by
   `tests/unit/test_comparability_decision_persisted.py::test_every_comparability_decision_is_persisted_with_its_reason_code`
+- the optional FastAPI app over the SDK (the quick start's last line) — every
+  route, and a second app reading back what the first wrote to the file, in
+  `tests/integration/test_api_smoke.py::test_api_round_trip_over_the_sdk`;
+  the runtime's refusals arriving as 400s with nothing written, and an
+  unknown identity as 404, in
+  `tests/integration/test_api_smoke.py::test_api_turns_refusals_into_http_errors_not_silent_writes`
 
 ## Out of scope
 
