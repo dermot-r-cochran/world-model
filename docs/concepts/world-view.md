@@ -5,7 +5,6 @@ A world view is a typed policy artifact that governs interpretation and operatio
 `WorldViewProfile` includes:
 - trust hierarchy
 - ambiguity policy
-- fallback alignment policy
 - comparability policy
 - escalation policy
 - accountability mapping (mismatch class to owner team)

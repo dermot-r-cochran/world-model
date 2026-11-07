@@ -65,7 +65,6 @@ class ComparabilityPolicy(BaseModel):
     require_same_worldview_profile: bool = True
     require_same_test_set_version: bool = True
     require_same_alignment_strategy: bool = True
-    allow_fallback_alignment_when_identity_missing: bool = False
 
 
 class AccountabilityMapping(BaseModel):
@@ -80,7 +79,6 @@ class WorldViewProfile(BaseModel):
     name: str
     trust_hierarchy: list[str]
     ambiguity_policy: str
-    fallback_alignment_strategy: str
     comparability_policy: ComparabilityPolicy
     escalation_policy: dict[str, str] = Field(default_factory=dict)
     accountability: AccountabilityMapping = Field(default_factory=AccountabilityMapping)
@@ -192,12 +190,10 @@ def default_document_worldview_profile() -> WorldViewProfile:
         name="enterprise-doc-default",
         trust_hierarchy=["system_of_record", "signed_document", "ocr_text", "llm_inference"],
         ambiguity_policy="surface_explicitly",
-        fallback_alignment_strategy="identity_then_strict_value",
         comparability_policy=ComparabilityPolicy(
             require_same_worldview_profile=True,
             require_same_test_set_version=True,
             require_same_alignment_strategy=True,
-            allow_fallback_alignment_when_identity_missing=False,
         ),
         escalation_policy={"error": "page-oncall", "warning": "queue-review"},
         accountability=AccountabilityMapping(
