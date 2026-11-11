@@ -1,10 +1,18 @@
 """Example application demonstrating document extraction and governed evaluation flow."""
 
+from pathlib import Path
+
 from worldsdk import WorldSDK
+
+DB_FILE = Path("document_example.db")
 
 
 def main() -> None:
-    sdk = WorldSDK(db_url="sqlite:///./document_example.db")
+    # Each run builds its world from nothing. The runtime refuses to re-create
+    # an identity that already exists (ADR-002), so the database an earlier run
+    # left here is removed first; this run's stays on disk to be read.
+    DB_FILE.unlink(missing_ok=True)
+    sdk = WorldSDK(db_url=f"sqlite:///./{DB_FILE}")
 
     sdk.create_entity("doc:inv-100", "document", attributes={"title": "Invoice INV-100"})
     sdk.create_entity("sec:inv-100:totals", "section", state="active", attributes={"heading": "Totals"})

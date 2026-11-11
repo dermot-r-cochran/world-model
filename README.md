@@ -109,7 +109,7 @@ and a comparability decision in one flow.
 
 ## Tests
 
-Twelve tests, structured by what they protect, not by module:
+Thirteen tests, structured by what they protect, not by module:
 
 - `tests/unit` — invariant enforcement, spec/runtime rules, worldview comparability policy, persisted comparability decisions
 - `tests/integration` — the document-extraction flow end to end; state surviving a restart; the FastAPI app over the SDK, every route through `httpx`

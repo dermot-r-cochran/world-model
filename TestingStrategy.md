@@ -23,7 +23,7 @@ of confidence each one produces, and the directory layout is the strategy:
   this directory, in the same change.**
 
 Run: `pytest` (config in `pyproject.toml`: `pythonpath = ["src"]`,
-`testpaths = ["tests"]`). All 12 tests verified passing locally on 2026-10-30
+`testpaths = ["tests"]`). All 13 tests verified passing locally on 2026-11-11
 with the `dev` extra installed (`pip install -e ".[dev]"`).
 
 ## What the tiers deliberately separate
@@ -41,7 +41,7 @@ failure a research project. The three-tier layout keeps the first question —
 - ~~The API surface has no direct coverage~~ — **closed 2026-10-30**:
   `tests/integration/test_api_smoke.py` drives every route through `httpx`'s
   `TestClient` on a file, including validation errors, the runtime's refusals
-  as 400s and a persistence round-trip to a second app. Twelve tests is still
+  as 400s and a persistence round-trip to a second app. Thirteen tests is still
   thin for a FastAPI + SQLModel service; the invariant and policy layers are
   the right ones to deepen next, since they are the product.
 - ~~Coverage is not measured~~ — the CI ratchet above holds it at ≥95%
