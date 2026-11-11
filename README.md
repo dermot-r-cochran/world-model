@@ -109,7 +109,7 @@ and a comparability decision in one flow.
 
 ## Tests
 
-Thirteen tests, structured by what they protect, not by module:
+Fourteen tests, structured by what they protect, not by module:
 
 - `tests/unit` — invariant enforcement, spec/runtime rules, worldview comparability policy, persisted comparability decisions
 - `tests/integration` — the document-extraction flow end to end; state surviving a restart; the FastAPI app over the SDK, every route through `httpx`
@@ -131,7 +131,9 @@ Each line names the test that proves it, or says there is none yet.
   `tests/integration/test_document_extraction_flow.py::test_end_to_end_document_extraction_flow`,
   `tests/unit/test_spec_runtime_rules.py::test_claim_requires_evidence`
 - invariant checks for required evidence classes —
-  `tests/unit/test_invariant_enforcement.py::test_invariant_requires_evidence_for_extracted_row`
+  `tests/unit/test_invariant_enforcement.py::test_invariant_requires_evidence_for_extracted_row`;
+  each entity judged by its latest version, with or without ids, in
+  `tests/regression/test_invariants_check_latest_version.py::test_regression_invariants_judge_the_latest_version_with_or_without_ids`
 - persisted evaluation runs — read back by `compare_runs` in
   `tests/unit/test_worldview_comparability_policy.py::test_comparability_decision_rejects_alignment_mismatch`
 - explicit comparability decisions across runs —
@@ -145,6 +147,9 @@ Each line names the test that proves it, or says there is none yet.
   the runtime's refusals arriving as 400s with nothing written, and an
   unknown identity as 404, in
   `tests/integration/test_api_smoke.py::test_api_turns_refusals_into_http_errors_not_silent_writes`
+- the worked example (the quick start's third line), run twice from a fresh
+  database each time —
+  `tests/regression/test_example_runs_twice.py::test_regression_the_worked_example_runs_a_second_time`
 
 ## Out of scope
 
