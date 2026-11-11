@@ -216,18 +216,22 @@ class WorldRuntime:
             return event
 
     def enforce_invariants(self, stable_ids: Iterable[str] | None = None) -> list[InvariantViolationRecord]:
-        """Evaluate invariant specs and persist violations for governance loops."""
+        """Evaluate invariant specs against the latest version of each entity and persist violations.
+
+        With no ``stable_ids`` every stored entity is checked; either way an
+        entity is judged by its latest version, so it yields one violation per
+        invariant, never one per stored version.
+        """
 
         violations: list[InvariantViolationRecord] = []
         with Session(self.engine) as session:
-            target_entities = []
             if stable_ids is None:
-                target_entities = session.exec(select(EntityVersion)).all()
-            else:
-                for stable_id in stable_ids:
-                    entity = latest_entity(session, stable_id)
-                    if entity:
-                        target_entities.append(entity)
+                stable_ids = session.exec(select(EntityVersion.stable_id).distinct()).all()
+            target_entities = []
+            for stable_id in stable_ids:
+                entity = latest_entity(session, stable_id)
+                if entity:
+                    target_entities.append(entity)
 
             for entity in target_entities:
                 if (
