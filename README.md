@@ -109,9 +109,9 @@ and a comparability decision in one flow.
 
 ## Tests
 
-Fourteen tests, structured by what they protect, not by module:
+25 tests, structured by what they protect, not by module:
 
-- `tests/unit` — invariant enforcement, spec/runtime rules, worldview comparability policy, persisted comparability decisions
+- `tests/unit` — invariant enforcement, spec/runtime rules, the runtime's refusals, worldview comparability policy, persisted comparability decisions
 - `tests/integration` — the document-extraction flow end to end; state surviving a restart; the FastAPI app over the SDK, every route through `httpx`
 - `tests/regression` — a comparability edge case worth never regressing
 
@@ -130,6 +130,11 @@ Each line names the test that proves it, or says there is none yet.
 - evidence attachment and evidence-required claims —
   `tests/integration/test_document_extraction_flow.py::test_end_to_end_document_extraction_flow`,
   `tests/unit/test_spec_runtime_rules.py::test_claim_requires_evidence`
+- the runtime's other refusals — a type or relation outside the ontology, a
+  state outside a lifecycle, an identity or evidence that does not exist, a
+  transition without the evidence its spec requires, an evidence id or run id
+  used twice — each leaving the store as it was: every test in
+  `tests/unit/test_runtime_refusals.py`
 - invariant checks for required evidence classes —
   `tests/unit/test_invariant_enforcement.py::test_invariant_requires_evidence_for_extracted_row`;
   each entity judged by its latest version, with or without ids, in
