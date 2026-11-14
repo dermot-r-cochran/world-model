@@ -9,9 +9,10 @@ invariants, comparability policies — so the tests are organised by what kind
 of confidence each one produces, and the directory layout is the strategy:
 
 - **`tests/unit/`** — one rule, in isolation: the worldview comparability
-  policy, spec runtime rules, invariant enforcement, and that every
-  comparability decision is persisted (ADR-004). When one of these fails, a
-  governance rule changed meaning.
+  policy, spec runtime rules, invariant enforcement, each of the runtime's
+  refusals (the error that names the rule, and nothing written), and that
+  every comparability decision is persisted (ADR-004). When one of these
+  fails, a governance rule changed meaning.
 - **`tests/integration/`** — a flow across components: document extraction
   end to end, state written by one `WorldSDK` read back by a fresh one on
   the same file (the "durable" in the README), and the FastAPI app driven
@@ -23,7 +24,7 @@ of confidence each one produces, and the directory layout is the strategy:
   this directory, in the same change.**
 
 Run: `pytest` (config in `pyproject.toml`: `pythonpath = ["src"]`,
-`testpaths = ["tests"]`). All 14 tests verified passing locally on 2026-11-11
+`testpaths = ["tests"]`). All 25 tests verified passing locally on 2026-11-14
 with the `dev` extra installed (`pip install -e ".[dev]"`).
 
 ## What the tiers deliberately separate
@@ -41,12 +42,14 @@ failure a research project. The three-tier layout keeps the first question —
 - ~~The API surface has no direct coverage~~ — **closed 2026-10-30**:
   `tests/integration/test_api_smoke.py` drives every route through `httpx`'s
   `TestClient` on a file, including validation errors, the runtime's refusals
-  as 400s and a persistence round-trip to a second app. Fourteen tests is still
+  as 400s and a persistence round-trip to a second app. 25 tests is still
   thin for a FastAPI + SQLModel service; the invariant and policy layers are
   the right ones to deepen next, since they are the product.
-- ~~Coverage is not measured~~ — the CI ratchet above holds it at ≥95%
+- ~~Coverage is not measured~~ — the CI ratchet above holds it at ≥98%
   (raised from 86 on 2026-10-19 with the persistence tests, measured 87.73%,
-  and from 87 on 2026-10-30 with the API tests, measured 95.63%);
+  from 87 on 2026-10-30 with the API tests, measured 95.63%, and from 95 on
+  2026-11-14 with the runtime-refusal tests, measured 98.54%, the engine at
+  100%);
   raise the number in the same change that adds the tests that earn it. Note
   that pytest-cov compares the rounded figure, so a ratchet of N passes from
   N-0.5%: set it at or below the measured whole number, never the rounded one.
