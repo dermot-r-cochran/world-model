@@ -37,7 +37,7 @@ failure a research project. The three-tier layout keeps the first question —
 ## Known gaps (candidates for next)
 
 - ~~No CI~~ — **closed 2026-08-24**: `.github/workflows/ci.yml` runs the
-  suite on Python 3.12/3.13 with a coverage ratchet at the measured 86%
+  suite on Python 3.12/3.15 with a coverage ratchet at the measured 86%
   baseline, on every PR and push to `main`.
 - ~~The API surface has no direct coverage~~ — **closed 2026-10-30**:
   `tests/integration/test_api_smoke.py` drives every route through `httpx`'s
