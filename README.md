@@ -104,6 +104,20 @@ python examples/document_extraction/run_example.py
 uvicorn worldsdk.api:create_app --factory --reload
 ```
 
+To depend on a release from another project, pin its tag:
+
+```bash
+pip install "worldview-platform @ git+https://github.com/dermot-r-cochran/world-model@v0.1.0"
+```
+
+or, in that project's `pyproject.toml`:
+
+```toml
+dependencies = ["worldview-platform @ git+https://github.com/dermot-r-cochran/world-model@v0.1.0"]
+```
+
+No release is tagged yet; the first, `v0.1.0`, is owed. Until it is pushed, put a commit SHA in place of `v0.1.0`.
+
 The example is the fastest way in: it exercises identity, transitions, evidence
 and a comparability decision in one flow.
 
